@@ -22,7 +22,10 @@ function apiRequest(subred, cb) {
       }
     });
     const cards = cleaned.forEach(function (element) {
-      return buildCard(element);
+      return buildCard(element).addEventListener('click', (element) => { 
+        console.log('yo', element);
+        //document.open('https://www.reddit.com');
+      });
     });
   });
     xhr.open('GET', `https://www.reddit.com/r/${subred}.json`);
@@ -40,27 +43,26 @@ function decodeDate(element) {
 
 //building cards function
 function buildCard(element) {
-  const articleElem = document.createElement('div');
-  articleElem.className = 'article';
-  // containerDiv.appendChild(articleElem);
+  //const articleElem = document.createElement('div');
+  //articleElem.className = 'article';
+  
 
   const bodyElem = document.createElement('div');
-  //bodyElem.className = 'bodyEl';
-  articleElem.appendChild(bodyElem);
+  bodyElem.className = 'bodyEl';
+  containerDiv.appendChild(bodyElem);
 
   // const redHead = document.createElement('div');
   // redHead.className = 'heads';
   // bodyElem.appendChild(redHead);
 
-  // const redImg = document.createElement('img');
-  // redImg.className = 'images';
-  // redImg.innerHTML = imgValidation(element.image);
-  // bodyElem.appendChild(redImg);
-
   const redImg = document.createElement('img');
   redImg.className = 'images';
   redImg.src = element.image;
+  //redImg.addEventListener('click', (elem) => {
+
+  //});
   bodyElem.appendChild(redImg);
+
 
   const redTitle = document.createElement('p');
   redTitle.className = 'titles';
@@ -87,12 +89,10 @@ function buildCard(element) {
   redExcerpt.innerHTML = textValidation(element.read);
   bodyElem.appendChild(redExcerpt);
 
-  articleElem.appendChild(bodyElem);
-  containerDiv.appendChild(articleElem);
+  //articleElem.appendChild(bodyElem);
+  containerDiv.appendChild(bodyElem);
 
-  console.log('thumb', element.image)
-
-  return articleElem;
+  return bodyElem;
 
 };
 
