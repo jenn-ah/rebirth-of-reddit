@@ -40,9 +40,12 @@ body {
   margin-bottom: 26px; }
 
 .buttons {
-  align-content: center;
+  color: darkgray;
+  font-size: 20px;
+  border: none;
   background-color: transparent;
-  font-family: 'Oswald', sans-serif; }
+  font-family: 'Oswald', sans-serif;
+  line-height: 2.5rem; }
 
 .bodyEl {
   background-color: white;

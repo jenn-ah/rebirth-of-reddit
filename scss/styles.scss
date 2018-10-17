@@ -39,10 +39,12 @@ body {
 }
 
 .buttons {
- // font
-  align-content: center;
+ color: darkgray;
+ font-size: 20px;
+  border: none;
   background-color: transparent;
   font-family: 'Oswald', sans-serif;
+  line-height: 2.5rem;
 }
 
   .bodyEl {

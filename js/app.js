@@ -1,12 +1,8 @@
 
 apiRequest('funny');
-//apiRequest('todayilearned');
-//apiRequest('interestingasfuck');
 
 const containerDiv = document.getElementById('container');
 const headerNavButtons = document.getElementsByClassName('headerNav');
-const clickButtons = document.getElementsByClassName('buttons');
-const clearContainer = document.createElement('div');
 
 //api request function
 function apiRequest(subred, method = 'GET') {
