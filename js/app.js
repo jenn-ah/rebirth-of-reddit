@@ -1,12 +1,15 @@
 
 apiRequest('funny');
-apiRequest('todayilearned');
-apiRequest('interestingasfuck');
+//apiRequest('todayilearned');
+//apiRequest('interestingasfuck');
 
 const containerDiv = document.getElementById('container');
+const headerNavButtons = document.getElementsByClassName('headerNav');
+const clickButtons = document.getElementsByClassName('buttons');
+const clearContainer = document.createElement('div');
 
 //api request function
-function apiRequest(subred, cb) {
+function apiRequest(subred, method = 'GET') {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load', function () {
 
@@ -21,17 +24,15 @@ function apiRequest(subred, cb) {
         read: article.data.selftext
       }
     });
+    containerDiv.innerHTML = "";
     const cards = cleaned.forEach(function (element) {
-      return buildCard(element).addEventListener('click', (element) => { 
-        console.log('yo', element);
-        //document.open('https://www.reddit.com');
-      });
+      return buildCard(element);
     });
   });
-    xhr.open('GET', `https://www.reddit.com/r/${subred}.json`);
-    xhr.send();
-};
 
+  xhr.open(method, `https://www.reddit.com/r/${subred}.json`);
+  xhr.send();
+}
 
 //decoding date function
 function decodeDate(element) {
@@ -45,8 +46,6 @@ function decodeDate(element) {
 function buildCard(element) {
   //const articleElem = document.createElement('div');
   //articleElem.className = 'article';
-  
-
   const bodyElem = document.createElement('div');
   bodyElem.className = 'bodyEl';
   containerDiv.appendChild(bodyElem);
@@ -79,19 +78,14 @@ function buildCard(element) {
   redDate.innerHTML = element.date;
   bodyElem.appendChild(redDate);
 
-  // const redViews = document.createElement('p');
-  // redViews.className = 'views';
-  // redViews.innerHTML = element.views;
-  // bodyElem.appendChild(redViews);
-
   const redExcerpt = document.createElement('p');
   redExcerpt.className = 'excerpts';
   redExcerpt.innerHTML = textValidation(element.read);
   bodyElem.appendChild(redExcerpt);
 
-  //articleElem.appendChild(bodyElem);
-  containerDiv.appendChild(bodyElem);
 
+  containerDiv.appendChild(bodyElem);
+  
   return bodyElem;
 
 };
@@ -104,11 +98,26 @@ function buildCard(element) {
 //   }
 // };
 
-function textValidation (elem) {
+function textValidation(elem) {
   if (elem === '') {
     return 'Article has no text input.'
   } else {
     return elem;
   }
 }
+
+const funnyButton = document.getElementById('funnyButton');
+funnyButton.addEventListener('click', () => {
+  return apiRequest('funny');
+});
+
+const intAFButton = document.getElementById('inAFButton');
+intAFButton.addEventListener('click', () => {
+  return apiRequest('interestingasfuck');
+});
+
+const oddlySatisButton = document.getElementById('oddlySatis');
+oddlySatisButton.addEventListener('click', () => {
+  return apiRequest('oddlysatisfying');
+});
 

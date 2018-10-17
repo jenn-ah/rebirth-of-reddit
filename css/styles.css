@@ -39,6 +39,11 @@ body {
   margin-top: 0px;
   margin-bottom: 26px; }
 
+.buttons {
+  align-content: center;
+  background-color: transparent;
+  font-family: 'Oswald', sans-serif; }
+
 .bodyEl {
   background-color: white;
   width: 325px;
