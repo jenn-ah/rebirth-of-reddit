@@ -1,0 +1,38 @@
+html {
+  font-size: 16px;
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+body {
+  margin: 0; }
+
+body {
+  background-color: #eee; }
+
+.header {
+  padding: 10px;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: #ffff;
+  background-color: #505050; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .header {
+      font-size: 2.125rem;
+      padding: 20px; } }
+  @media (min-width: 1024px) {
+    .header {
+      font-size: 2.25rem;
+      padding: 30px; } }
+
+.container {
+  height: 100%;
+  min-width: 400px;
+  max-width: 768px;
+  margin: auto;
+  background-color: #00df4e; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+      background-color: cornflowerblue; } }

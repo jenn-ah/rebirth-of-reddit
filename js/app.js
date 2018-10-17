@@ -1,95 +1,114 @@
 
-apiRequest('http://www.reddit.com/r/oddlysatisfying.json', refactorData);
+apiRequest('funny');
+apiRequest('todayilearned');
+apiRequest('interestingasfuck');
 
-function apiRequest(url, cb) {
+const containerDiv = document.getElementById('container');
+
+//api request function
+function apiRequest(subred, cb) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load', function () {
+
     const redData = JSON.parse(this.responseText);
     const rawChildren = redData.data.children;
-    rawChildren.map(function (article) {
+    const cleaned = rawChildren.map(function (article) {
       return {
+        image: article.data.thumbnail,
         title: article.data.title,
         author: article.data.author,
         date: decodeDate(article),
-        views: article.data.view_count,
         read: article.data.selftext
-    }
+      }
+    });
+    const cards = cleaned.forEach(function (element) {
+      return buildCard(element);
     });
   });
-  xhr.open('GET', url);
-  xhr.send();
-}
-
-const containerDiv = document.getElementById('container');
-const artDiv = document.getElementById('articleDiv');
+    xhr.open('GET', `https://www.reddit.com/r/${subred}.json`);
+    xhr.send();
+};
 
 
-function decodeDate (element) {
+//decoding date function
+function decodeDate(element) {
   const decodeDate = new Date(element.data.created_utc * 1000);
   const date = decodeDate.toLocaleDateString();
   return date;
 };
 
-//function to refactor data from reddit
-// function refactorData() {
-//   const redData = JSON.parse(this.responseText);
-//   const newData = redData.data.children;
 
-//   newData.forEach(element => {
+//building cards function
+function buildCard(element) {
+  const articleElem = document.createElement('div');
+  articleElem.className = 'article';
+  // containerDiv.appendChild(articleElem);
 
-//     console.log(element.data);
-//   });
+  const bodyElem = document.createElement('div');
+  //bodyElem.className = 'bodyEl';
+  articleElem.appendChild(bodyElem);
 
+  // const redHead = document.createElement('div');
+  // redHead.className = 'heads';
+  // bodyElem.appendChild(redHead);
 
-//   const redTitle = document.createElement('title');
-//   redTitle.className = 'titles';
-//   redData.data.children.forEach(element => {
-//     redTitle.innerHTML = 'title: ' + element.data.title;
-//   });
-//   articleDiv.appendChild(redTitle);
+  // const redImg = document.createElement('img');
+  // redImg.className = 'images';
+  // redImg.innerHTML = imgValidation(element.image);
+  // bodyElem.appendChild(redImg);
 
-//   const redAuthor = document.createElement('p');
-//   redAuthor.className = 'authors';
-//   redData.data.children.forEach(element => {
-//     redAuthor.innerHTML = 'author: ' + element.data.author;
-//   });
-//   articleDiv.appendChild(redAuthor);
+  const redImg = document.createElement('img');
+  redImg.className = 'images';
+  redImg.src = element.image;
+  bodyElem.appendChild(redImg);
 
-//   const redDate = document.createElement('p');
-//   redDate.className = 'dates';
-//   redData.data.children.forEach(element => {
-//     const decodeDate = new Date(element.data.created_utc * 1000);
-//     const date = decodeDate.toLocaleDateString();
-//     redDate.innerHTML = 'date: ' + date;
-//   });
-//   articleDiv.appendChild(redDate);
+  const redTitle = document.createElement('p');
+  redTitle.className = 'titles';
+  redTitle.innerHTML = element.title;
+  bodyElem.appendChild(redTitle);
 
-//   const redViews = document.createElement('p');
-//   redViews.className = 'views';
-//   redData.data.children.forEach(element => {
-//     redViews.innerHTML = 'view count: ' + element.data.view_count;
-//   });
-//   articleDiv.appendChild(redViews);
+  const redAuthor = document.createElement('p');
+  redAuthor.className = 'authors';
+  redAuthor.innerHTML = element.author;
+  bodyElem.appendChild(redAuthor);
 
+  const redDate = document.createElement('p');
+  redDate.className = 'dates';
+  redDate.innerHTML = element.date;
+  bodyElem.appendChild(redDate);
 
-//   const redExcerpt = document.createElement('p');
-//   redExcerpt.className = 'excerpts';
-//   redData.data.children.forEach(element => {
-//     redExcerpt.innerHTML = 'article: ' + element.data.selftext;
-//   });
-//   articleDiv.appendChild(redExcerpt);
-//   containerDiv.appendChild(articleDiv);
+  // const redViews = document.createElement('p');
+  // redViews.className = 'views';
+  // redViews.innerHTML = element.views;
+  // bodyElem.appendChild(redViews);
 
+  const redExcerpt = document.createElement('p');
+  redExcerpt.className = 'excerpts';
+  redExcerpt.innerHTML = textValidation(element.read);
+  bodyElem.appendChild(redExcerpt);
 
-//   console.log(redData.data.children);
-// }
+  articleElem.appendChild(bodyElem);
+  containerDiv.appendChild(articleElem);
 
+  console.log('thumb', element.image)
 
-// function createElems(item, itemClass) {
-//   item.className = itemClass;
+  return articleElem;
 
-// }
+};
 
-// function buildCard () {
-
+// function imgValidation (elem) {
+// if (elem === null || elem === '' || elem === undefined) {
+//   return 'element has no thumbnail';
+// } else {
+//   return elem;
+//   }
 // };
+
+function textValidation (elem) {
+  if (elem === '') {
+    return 'Article has no text input.'
+  } else {
+    return elem;
+  }
+}
+
